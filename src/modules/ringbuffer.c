@@ -78,7 +78,7 @@ uint32_t ringbuffer_capacity(RingBuffer* rb) {
 
 bool ringbuffer_push(RingBuffer* rb, void* item) {
     if (ringbuffer_is_full(rb)) {
-        return false;
+        rb->read_pos = (rb->read_pos + 1) & rb->mask;
     }
     
     rb->buffer[rb->write_pos] = item;
@@ -93,7 +93,7 @@ void* ringbuffer_pop(RingBuffer* rb) {
     
     void* item = rb->buffer[rb->read_pos];
     rb->read_pos = (rb->read_pos + 1) & rb->mask;
-    return item;
+        return item;
 }
 
 uint32_t ringbuffer_push_batch(RingBuffer* rb, void** items, uint32_t count) {
