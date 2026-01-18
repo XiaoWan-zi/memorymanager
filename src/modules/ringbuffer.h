@@ -33,7 +33,7 @@ uint32_t ringbuffer_size(RingBuffer* rb);
 uint32_t ringbuffer_capacity(RingBuffer* rb);
 
 // 写入一个元素（非阻塞）
-// 如果缓冲区已满，返回 false
+// 如果缓冲区满了，覆盖最旧的数据（移动read_pos）
 bool ringbuffer_push(RingBuffer* rb, void* item);
 
 // 读取一个元素（非阻塞）
