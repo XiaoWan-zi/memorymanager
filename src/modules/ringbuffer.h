@@ -4,6 +4,22 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+// 调试宏定义
+#ifdef DEBUG
+#include <stdio.h>
+#define DEBUG_PRINT(fmt, ...) printf("[RINGBUFFER] " fmt "\n", ##__VA_ARGS__)
+#define DEBUG_PRINT_PUSH(rb, item) \
+    DEBUG_PRINT("PUSH: write_pos=%u, read_pos=%u, size=%u, item=%p", \
+                (rb)->write_pos, (rb)->read_pos, ringbuffer_size(rb), item)
+#define DEBUG_PRINT_POP(rb, item) \
+    DEBUG_PRINT("POP: write_pos=%u, read_pos=%u, size=%u, item=%p", \
+                (rb)->write_pos, (rb)->read_pos, ringbuffer_size(rb), item)
+#else
+#define DEBUG_PRINT(fmt, ...)
+#define DEBUG_PRINT_PUSH(rb, item)
+#define DEBUG_PRINT_POP(rb, item)
+#endif
+
 // 环形缓冲区结构体
 typedef struct {
     void **buffer;          // 存储数据的缓冲区
